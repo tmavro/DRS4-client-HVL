@@ -14,7 +14,7 @@ OBJECTS       = musbstd.o mxml.o strlcpy.o
 all: drs4client
 
 drs4client: $(OBJECTS) $(CPP_OBJ) drs4client.o
-	$(CXX) $(CFLAGS) $(OBJECTS) $(CPP_OBJ) drs4client.o -o build/drs4client $(LIBS)
+	$(CXX) $(CFLAGS) $(OBJECTS) $(CPP_OBJ) drs4client.o -o drs4client $(LIBS)
 
 drs4client.o: src/drs4client.cpp include/mxml.h include/DRS.h
 	$(CXX) $(CFLAGS) -c $<
