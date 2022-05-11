@@ -40,7 +40,7 @@ The software will probably require root privileges to recognize the DRS4 EB.
 sudo ./drs4client -h
 ```
 
-```bash
+```
   Usage: DRS4-client [OPTION]Usage: DRS4-client [OPTION]
   Command-line application for timed data acqusition with DRS4 EB.
   
