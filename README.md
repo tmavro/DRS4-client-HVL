@@ -34,6 +34,12 @@ cd DRS4-client-HVL
 make
 ```
 
+At this point your system will require a restart. Do that now. 
+
+```bash
+sudo reboot
+```
+
 The software will probably require root privileges to recognize the DRS4 EB. 
 
 ```bash
