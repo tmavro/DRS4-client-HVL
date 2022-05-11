@@ -25,7 +25,7 @@
      Define directives 
     ------------------- */ 
 #define DIR_SEPARATOR '/'
-#define PROGRAM_NAME "DRS4-client"
+#define PROGRAM_NAME "drs4client"
 #define AUTHORS \
 proper_name("Thomas B. Mavropoulos"), \
 proper_name("Sigve B. Heggedal")
@@ -63,10 +63,11 @@ static struct option const long_options[] =
     Methods
    --------- */ 
 void runBoardTime(DRSBoard* &b, std::chrono::seconds sekund, FILE* &f, int &c); // Runs board for given amount of time
-void runNumbEvents(DRSBoard* &b, int events, FILE* &f); // Runs board for given amount of events
+void runNumbEvents(DRSBoard* &b, int events, FILE* &f, std::chrono::steady_clock::time_point starttime); // Runs board for given amount of events
 int initScan(DRS* &drs, DRSBoard* &b); // Checks for board and initializes it 
 void showUsage(int status); // Shows help screen with options
 void processArgs(int argc, char **argv); // Handles cli arguments
+void printArgs(); // Prints the given cli arguments
 
 using namespace std;
 
@@ -78,6 +79,8 @@ int main(int argc, char **argv){
     DRSBoard *b; //Board
     drs = new DRS();
     if (initScan(drs, b) == EXIT_FAILURE) return EXIT_FAILURE; // Initialize board, exits if no boards found. 
+
+    printArgs();
 
     // Run board for a given time or number of events
     if (argTime > 0 && argNumb == 0) {
@@ -93,12 +96,12 @@ int main(int argc, char **argv){
         std::chrono::seconds sekunder(argTime); //TODO Implement more complex time handling, not just seconds
         int countEvents = 1; // Counts number of events
 
-        cout << "Starting timed capture...";
+        cout << "Starting timed capture...\n"; 
         auto start = std::chrono::steady_clock::now();
         runBoardTime(b, sekunder, f, countEvents);
         auto end = std::chrono::steady_clock::now();
         std::chrono::duration<double> elapsed_seconds = end - start;
-        cout << "Elapsed time: " << elapsed_seconds.count() << "s\n";
+        cout << "\nTotal elapsed time: " << elapsed_seconds.count() << "s\n";
 
         fclose(f);
         delete drs;
@@ -115,17 +118,23 @@ int main(int argc, char **argv){
             delete drs;
             return EXIT_FAILURE;
         }
+
+        // Time counter
+        std::chrono::steady_clock::time_point starttime = std::chrono::steady_clock::now();
         // repeat argNumb times 
         for (int j=0 ; j<argNumb; j++) {
-            runNumbEvents(b, j, f);
+            runNumbEvents(b, j, f, starttime);
         }
+
+        cout << endl;
+
         fclose(f);
         delete drs;
 
         return EXIT_SUCCESS;
     }
     else {
-        cout << ("\nMust choose to either run based on an ammount of time or number of events. Exiting.\n");
+        cout << ("User must choose to either run based on an ammount of time or number of events. Exiting.\n");
         delete drs;
         return(EXIT_FAILURE);
     }
@@ -152,6 +161,19 @@ string measureTemp(){
 void parseTimeArgumet() { //TODO Implement
 }
 
+void printArgs(){
+    printf("Sampling frequency set to %d GHz, input range %d V, trigger level %d V, trigger delay %d ns. \n", 
+    argFreq, argRange, argTrigLvl, argTrigDelay);
+    if (argTime > 0) printf("Time-based capture set to %d seconds. ", argTime);
+    if (argNumb > 0) printf("Event-based capture set to %d events. ", argNumb);
+    if (argIgnore) {
+        printf("Capturing waveforms turned off.\n");
+    }
+    else {
+        printf("Capturing waveforms turned on.\n");
+    }
+}
+
 // Simply prints help screen to console
 void showUsage(int status){
     if (status != EXIT_SUCCESS) {
@@ -159,8 +181,8 @@ void showUsage(int status){
         exit(status);
     }
     else {
-    printf(("Usage: %s [OPTION]... [FILE]...\n"), PROGRAM_NAME);
-    fputs(("Command-line application for timed data acqusition with DRS4 EB.\n"), stdout); // TODO: Mind-blowing and succinct desc
+    printf(("Usage: %s [OPTION] \n"), PROGRAM_NAME); //... [FILE]...\n"), PROGRAM_NAME);
+    fputs(("Command-line application for timed data acqusition with DRS4 EB.\n"), stdout); 
 
     fputs(("\
     \n\
@@ -177,10 +199,11 @@ void showUsage(int status){
     printf(("\
             \n\
             Examples:\n\
-            %s -t259200               Records events for 72 hours.\n\
-            %s                        More information here\n\
-            "), PROGRAM_NAME, PROGRAM_NAME); // TODO Usage examples
+            %s -t259200      Records events for 72 hours.\n\
+            %s -n50 -w       Records 50 events without waveform data.\n\
+            "), PROGRAM_NAME, PROGRAM_NAME); 
     }
+    cout << endl;
     exit(status);
 } 
 
@@ -188,47 +211,40 @@ void showUsage(int status){
 void processArgs(int argc, char **argv){
 
     int c;
-    while ((c = getopt_long (argc, argv, "f::i::l::d::n::t::wh", long_options, NULL)) != -1)
+    while ((c = getopt_long (argc, argv, "f::i::l::d::n::t::wh", long_options, NULL)) != -1) 
     {
         switch (c)
         {
         case 'f': //Set frequency
-            printf("Option f has arg: %s\n", optarg ? optarg : "(none)");
             argFreq = atoi(optarg);
             break;
 
         case 'i': //Input range
-            printf("Option i has arg: %s\n", optarg ? optarg : "(none)");
             argRange = atoi(optarg);
             break;
 
         case 'l': //Trigger level
-            printf("Option l has arg: %s\n", optarg ? optarg : "(none)");
             argTrigLvl = atoi(optarg);
             break;
 
         case 'd': //Trigger delay
-            printf("Option d has arg: %s\n", optarg ? optarg : "(none)");
             argTrigDelay = atoi(optarg);
             break;
 
         case 'n': //Numbered run
-            printf("Option n has arg: %s\n", optarg ? optarg : "(none)");
             argNumb = atoi(optarg);
             break;
 
         case 't': //Timed run
-            printf("Option t has arg: %s\n", optarg ? optarg : "(none)");
             argTime = atoi(optarg);
             break;
-                
+
         /*case 's': //Save-to
             printf("Option s has arg: %s\n", optarg ? optarg : "(none)");
             //argFile = optarg; //TODO Fix this, maybe make a separate method to handle properly
             break;*/
 
         case 'w': //Ignore waveform
-            printf("Option s has arg: %s\n", optarg ? optarg : "(none)");
             argIgnore = true;
             break;
 
@@ -239,7 +255,7 @@ void processArgs(int argc, char **argv){
 }
 
 // Board collects data for given amount of events
-void runNumbEvents(DRSBoard* &b, int events, FILE* &f){
+void runNumbEvents(DRSBoard* &b, int events, FILE* &f, std::chrono::steady_clock::time_point starttime){
     float time_array[8][1024]; // Waveform data, time axis
     float wave_array[8][1024]; // Waveform data, amplitude
 
@@ -259,13 +275,18 @@ void runNumbEvents(DRSBoard* &b, int events, FILE* &f){
     //decode waveform (Y) array of first channel in mV
     b->GetWave(0, 0, wave_array[0]);
 
-    //Save data
-    fprintf(f, "Event #%d, Temp:%.6s\nt1[ns],u1[mV]\n", events, measureTemp().c_str());
-    for (int i=0 ; i<1024 ; i++)
-        fprintf(f, "%.3f,%.1f\n", time_array[0][i], wave_array[0][i]);
+    double millisec = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - starttime).count();
 
+    //Save data
+    fprintf(f, "Event #%d, Temp:%.6s, Time: %.1f ms\n", events+1, measureTemp().c_str(), millisec);
+    if (!argIgnore) {
+        fprintf(f, "t[ns],u[mV]\n");
+        for (int i = 0; i < 1024; i++){
+            fprintf(f, "%.3f,%.1f\n", time_array[0][i], wave_array[0][i]);
+        }
+    }
     //print some progress indication
-    printf("\rEvent #%d read successfully\n", events);
+    printf("\rEvent #%d read successfully", events);
 }
 
 // Board collects data for given amount of time
@@ -275,6 +296,7 @@ void runBoardTime(DRSBoard* &b, std::chrono::seconds sekund, FILE* &f, int &coun
     float wave_array[8][1024]; // Waveform data, amplitude
 
     std::chrono::steady_clock::time_point starttime = std::chrono::steady_clock::now();
+    std::chrono::time_point<std::chrono::system_clock> begin = std::chrono::system_clock::now();
     std::chrono::time_point<std::chrono::system_clock> end = std::chrono::system_clock::now() + sekund; // Timed end-point
 
     while (std::chrono::system_clock::now() < end) { // While current time is still less than defined time end-point
@@ -294,18 +316,20 @@ void runBoardTime(DRSBoard* &b, std::chrono::seconds sekund, FILE* &f, int &coun
 
         // decode waveform (Y) array of first channel in mV 
         b->GetWave(0, 0, wave_array[0]);
-         
-        // Time elapsed in ms
+
         double millisec = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - starttime).count();
 
         //Save data
-        fprintf(f, "Event #%d, Temp: %.6s, Time: %f ms\n", counter, measureTemp().c_str(), millisec); //TODO Check that this is all working  
+        fprintf(f, "Event #%d, Temp: %.6s, Time: %.1f ms\n", counter, measureTemp().c_str(), millisec); 
         if (!argIgnore) {
             fprintf(f, "t[ns],u[mV]\n");
             for (int i = 0; i < 1024; i++){
                 fprintf(f, "%.3f,%.1f\n", time_array[0][i], wave_array[0][i]);
             }
         }
+        std::chrono::duration<double> elapsed = std::chrono::system_clock::now() - begin;
+        printf("\rRunning for %.0f seconds", elapsed.count());
+
     counter++;
     }
 }
@@ -352,6 +376,6 @@ int initScan(DRS* &drs, DRSBoard* &b){
     b->SetTriggerPolarity(false);        // positive edge
 
     // set trigger delay. Default: zero ns trigger delay
-    b->SetTriggerDelayNs(argTrigDelay);             
+    b->SetTriggerDelayNs(argTrigDelay);
     return EXIT_SUCCESS;
 }
