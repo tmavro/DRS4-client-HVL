@@ -40,6 +40,7 @@ The software will probably require root privileges to recognize the DRS4 EB.
 sudo ./drs4client -h
 ```
 
+```bash
   Usage: DRS4-client [OPTION]Usage: DRS4-client [OPTION]
   Command-line application for timed data acqusition with DRS4 EB.
   
@@ -55,3 +56,5 @@ sudo ./drs4client -h
           Examples:
           DRS4-client -t259200      Records events for 72 hours.
           DRS4-client -n50 -w       Records 50 events without waveform data.
+  
+  ```
