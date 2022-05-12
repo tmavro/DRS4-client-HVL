@@ -1,7 +1,7 @@
 # drs4client
 
 ```
-  Usage: DRS4-client [OPTION]Usage: DRS4-client [OPTION]
+  Usage: drs4client [OPTION]
   Command-line application for timed data acqusition with DRS4 EB.
   
   -f, --sampling-frequency Set sampling frequency. Default: 5 [GHz] 
