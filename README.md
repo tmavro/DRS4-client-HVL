@@ -1,5 +1,23 @@
 # drs4client
 
+```
+  Usage: DRS4-client [OPTION]Usage: DRS4-client [OPTION]
+  Command-line application for timed data acqusition with DRS4 EB.
+  
+  -f, --sampling-frequency Set sampling frequency. Default: 5 [GHz] 
+  -i, --input-range        input range, ex. input 0 means -0.5 to 0.5. Default: 0 
+  -l, --trigger-level      Set trigger level in volts. Default: 0.02 [V] 
+  -d, --trigger-delay      Set trigger delay in ns. Default: 250 [ns] 
+  -n, --numbered           Run for given number of events. Default: 0 
+  -t, --timed              Run for given amount of seconds. Default: 0 
+  -w, --ignore-wave        Do not save waveforms, only time and temp. Default: False 
+  -h, --help               Shows this help message 
+  
+          Examples:
+          DRS4-client -t259200      Records events for 72 hours.
+          DRS4-client -n50 -w       Records 50 events without waveform data.
+  ```
+
 ## About
 
 **drs4client** enables the user to define a set of parameters to initiate data acqusition through the Domino Ring Sampler 4 Evaluation Board. It is different from the stock DRS4 applications in that it allows the user to gather data over a predefined period of time, and it includes timestamps for captured events as well as temperature measurements. 
@@ -22,24 +40,6 @@ t[ns],u[mV]
 ```
 
 The software is meant to run on a Debian-based GNU/Linux system, such as Raspberry Pi OS or Ubuntu, connected to a single DRS4 Evaluation Board. 
-
-```
-  Usage: DRS4-client [OPTION]Usage: DRS4-client [OPTION]
-  Command-line application for timed data acqusition with DRS4 EB.
-  
-  -f, --sampling-frequency Set sampling frequency. Default: 5 [GHz] 
-  -i, --input-range        input range, ex. input 0 means -0.5 to 0.5. Default: 0 
-  -l, --trigger-level      Set trigger level in volts. Default: 0.02 [V] 
-  -d, --trigger-delay      Set trigger delay in ns. Default: 250 [ns] 
-  -n, --numbered           Run for given number of events. Default: 0 
-  -t, --timed              Run for given amount of seconds. Default: 0 
-  -w, --ignore-wave        Do not save waveforms, only time and temp. Default: False 
-  -h, --help               Shows this help message 
-  
-          Examples:
-          DRS4-client -t259200      Records events for 72 hours.
-          DRS4-client -n50 -w       Records 50 events without waveform data.
-  ```
 
 ## Installation 
 
