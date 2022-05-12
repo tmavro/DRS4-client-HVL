@@ -1,10 +1,46 @@
-# DRS4-client-HVL
+# drs4client
 
-## What? 
+## About
 
-This software is meant to run on a GNU/Linux system connected to a single DRS4 Evaluation Board. Eventually, it will enable users to define certain parameters and initate gathering of data from channel one. 
+This software enables the user to define a set of parameters to initiate data acqusition through the Domino Ring Sampler 4 Evaluation Board. It is different from the stock DRS4 applications in that it allows the user to gather data over a predefined period of time, and it includes timestamps for captured events as well as temperature measurements. 
+**drs4client** is made to be non-interactive: there's no GUI and it does not require any further input after starting the program. This allows the user to simply initiate data acquisition for long periods of time without having to further engage with the software.
 
-## How? 
+Data is stored in a CSV-like format. Event number, temperature [°C] and timestamps [ms] are followed by the waveform data.  
+
+```Example
+Event #1, Temp: 23.130, Time: 99.0 ms
+t[ns],u[mV]
+0.000,-2.0
+0.622,0.1
+1.047,-0.3
+1.613,-0.6
+2.077,-1.0
+2.649,-0.7
+3.089,-0.9
+...
+```
+
+The software is meant to run on a Debian-based GNU/Linux system, such as Raspberry Pi OS or Ubuntu, connected to a single DRS4 Evaluation Board. 
+
+```
+  Usage: DRS4-client [OPTION]Usage: DRS4-client [OPTION]
+  Command-line application for timed data acqusition with DRS4 EB.
+  
+  -f, --sampling-frequency Set sampling frequency. Default: 5 [GHz] 
+  -i, --input-range        input range, ex. input 0 means -0.5 to 0.5. Default: 0 
+  -l, --trigger-level      Set trigger level in volts. Default: 0.02 [V] 
+  -d, --trigger-delay      Set trigger delay in ns. Default: 250 [ns] 
+  -n, --numbered           Run for given number of events. Default: 0 
+  -t, --timed              Run for given amount of seconds. Default: 0 
+  -w, --ignore-wave        Do not save waveforms, only time and temp. Default: False 
+  -h, --help               Shows this help message 
+  
+          Examples:
+          DRS4-client -t259200      Records events for 72 hours.
+          DRS4-client -n50 -w       Records 50 events without waveform data.
+  ```
+
+## Installation 
 
 Compiling and running the software requires that you've installed libusb-1.0. It's also recommended that you use a screen multiplexer, such as tmux. On debian-based systems this can easily be done in terminal:
 
@@ -40,27 +76,8 @@ At this point your system will require a restart. Do that now.
 sudo reboot
 ```
 
-The software will probably require root privileges to recognize the DRS4 EB. 
+The software requires root privileges to recognize the DRS4 EB's USB connection. 
 
 ```bash
 sudo ./drs4client -h
 ```
-
-```
-  Usage: DRS4-client [OPTION]Usage: DRS4-client [OPTION]
-  Command-line application for timed data acqusition with DRS4 EB.
-  
-  -f, --sampling-frequency Set sampling frequency. Default: 5 [GHz] 
-  -i, --input-range        input range, ex. input 0 means -0.5 to 0.5. Default: 0 
-  -l, --trigger-level      Set trigger level in volts. Default: 0.02 [V] 
-  -d, --trigger-delay      Set trigger delay in ns. Default: 250 [ns] 
-  -n, --numbered           Run for given number of events. Default: 0 
-  -t, --timed              Run for given amount of seconds. Default: 0 
-  -w, --ignore-wave        Do not save waveforms, only time and temp. Default: False 
-  -h, --help               Shows this help message 
-  
-          Examples:
-          DRS4-client -t259200      Records events for 72 hours.
-          DRS4-client -n50 -w       Records 50 events without waveform data.
-  
-  ```
