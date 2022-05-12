@@ -1,4 +1,4 @@
-/* Authors: Sigve B Heggedal and Thomas B Mavropoulos  */
+/* Authors: Thomas B Mavropoulos and Sigve B Heggedal */
 
 /*  ------
      Libs 
