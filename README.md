@@ -17,7 +17,6 @@
           drs4client -t259200      Records events for 72 hours.
           drs4client -n50 -w       Records 50 events without waveform data.
   ```
-
 ## About
 
 **drs4client** enables the user to define a set of parameters to initiate data acqusition through the Domino Ring Sampler 4 Evaluation Board. It is different from the stock DRS4 applications in that it allows the user to gather data over a predefined period of time, and it includes timestamps for captured events as well as temperature measurements. 
