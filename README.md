@@ -42,14 +42,12 @@ The software is meant to run on a Debian-based GNU/Linux system, such as Raspber
 
 ## Installation 
 
-Compiling and running the software requires that you've installed libusb-1.0. It's also recommended that you use a screen multiplexer, such as tmux. On debian-based systems this can easily be done in terminal:
-
+Compiling and running the software requires installation of libusb-1.0. It's also recommended that you use a screen multiplexer, such as tmux, to enable running drs4client in the background. On debian-based systems this can easily be done in terminal:
 ```bash
 sudo apt update && sudo apt -y upgrade && sudo apt-get install libusb-1.0.0-dev tmux
 ```
 
-To capture temperature data with the MAX31865 pcb, you'll need some python libraries: 
-
+To capture temperature data with the MAX31865 breakout board, you'll need some python libraries: 
 ```bash
 sudo pip3 install --upgrade setuptools adafruit-python-shell
 
@@ -61,7 +59,6 @@ sudo pip3 install adafruit-circuitpython-max31865
 ```
 
 From there, simply clone this repository and run make. 
-
 ```bash
 git clone https://github.com/tmavro/DRS4-client-HVL
 
@@ -71,7 +68,6 @@ make
 ```
 
 At this point your system will require a restart. Do that now. 
-
 ```bash
 sudo reboot
 ```
