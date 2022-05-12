@@ -14,8 +14,8 @@
   -h, --help               Shows this help message 
   
           Examples:
-          DRS4-client -t259200      Records events for 72 hours.
-          DRS4-client -n50 -w       Records 50 events without waveform data.
+          drs4client -t259200      Records events for 72 hours.
+          drs4client -n50 -w       Records 50 events without waveform data.
   ```
 
 ## About
