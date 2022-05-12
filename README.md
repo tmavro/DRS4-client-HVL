@@ -3,6 +3,7 @@
 ## About
 
 This software enables the user to define a set of parameters to initiate data acqusition through the Domino Ring Sampler 4 Evaluation Board. It is different from the stock DRS4 applications in that it allows the user to gather data over a predefined period of time, and it includes timestamps for captured events as well as temperature measurements. 
+
 **drs4client** is made to be non-interactive: there's no GUI and it does not require any further input after starting the program. This allows the user to simply initiate data acquisition for long periods of time without having to further engage with the software.
 
 Data is stored in a CSV-like format. Event number, temperature [°C] and timestamps [ms] are followed by the waveform data.  
