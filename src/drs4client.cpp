@@ -1,6 +1,5 @@
 /* Authors: Sigve B Heggedal and Thomas B Mavropoulos  */
 
-
 /*  ------
      Libs 
     ------ */
