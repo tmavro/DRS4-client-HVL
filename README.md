@@ -80,5 +80,5 @@ sudo reboot
 The software requires root privileges to recognize the DRS4 EB's USB connection. 
 
 ```bash
-sudo ./drs4client -h
+sudo ./drs4client --help
 ```
