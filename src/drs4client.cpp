@@ -326,6 +326,7 @@ void runBoardTime(DRSBoard* &b, std::chrono::seconds sekund, FILE* &f, int &coun
                 fprintf(f, "%.3f,%.1f\n", time_array[0][i], wave_array[0][i]);
             }
         }
+        // print progress update
         std::chrono::duration<double> elapsed = std::chrono::system_clock::now() - begin;
         printf("\rRunning for %.0f seconds", elapsed.count());
 
