@@ -1,3 +1,6 @@
+/* Authors: Sigve B Heggedal and Thomas B Mavropoulos  */
+
+
 /*  ------
      Libs 
     ------ */
@@ -26,9 +29,6 @@
     ------------------- */ 
 #define DIR_SEPARATOR '/'
 #define PROGRAM_NAME "drs4client"
-#define AUTHORS \
-proper_name("Thomas B. Mavropoulos"), \
-proper_name("Sigve B. Heggedal")
 
 /*  ------------------
      Global variables 
