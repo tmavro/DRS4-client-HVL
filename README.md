@@ -21,11 +21,14 @@
 
 **drs4client** enables the user to define a set of parameters to initiate data acqusition through the Domino Ring Sampler 4 Evaluation Board. It is different from the stock DRS4 applications in that it allows the user to gather data over a predefined period of time, and it includes timestamps for captured events as well as temperature measurements. 
 
-The software is made to be non-interactive: there's no GUI and it does not require any further user input after starting the program. This allows the user to initiate data acquisition for long periods of time without having to further engage with the software, simply "set and forget." 
+It is made to be non-interactive: there's no GUI and it does not require any further user input after starting the program. This allows the user to initiate data acquisition for long periods of time without having to further engage with the software, simply "set and forget." 
 
-Data is stored in a CSV-like format. Event number, temperature [°C] and timestamps [ms] are followed by the waveform data.  
+The software is meant to run on a Debian-based GNU/Linux operating system, such as Raspberry Pi OS or Ubuntu, connected to a single DRS4 Evaluation Board. It was written to be used with single board computers with GPIO pins, such as the Raspberry Pi. 
 
-```Example
+Data is stored in a CSV-like format. Event number, temperature [°C] and timestamps [ms] are followed by the waveform data. 
+
+Example:
+```
 Event #1, Temp: 23.130, Time: 99.0 ms
 t[ns],u[mV]
 0.000,-2.0
@@ -37,8 +40,6 @@ t[ns],u[mV]
 3.089,-0.9
 ...
 ```
-
-The software is meant to run on a Debian-based GNU/Linux operating system, such as Raspberry Pi OS or Ubuntu, connected to a single DRS4 Evaluation Board. It was written to be used with single board computers with GPIO pins, such as the Raspberry Pi. 
 
 ## Installation 
 
