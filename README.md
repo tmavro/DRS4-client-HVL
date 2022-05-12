@@ -36,7 +36,7 @@ t[ns],u[mV]
 2.649,-0.7
 3.089,-0.9
 ...
-`
+```
 
 The software is meant to run on a Debian-based GNU/Linux operating system, such as Raspberry Pi OS or Ubuntu, connected to a single DRS4 Evaluation Board. It was written to be used with single board computers with GPIO pins, such as the Raspberry Pi. 
 
