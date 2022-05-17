@@ -36,19 +36,25 @@ resamp.columns = resamp.columns.map('_'.join)
 
 print(resamp)
 
+# Save the resampled data as CSV
 resamp.to_csv('result.csv')
 
+# Create plots
 sb.set_style("darkgrid")
 
-fig, ax =plt.subplots(1,2)
+fig, ax =plt.subplots(1,3)
 
-res = sb.lineplot(x='ms', y='temp_mean', data=resamp, ax=ax[0])
+res = sb.lineplot(x='ms', y='temp_mean', data=resamp, ax=ax[0], ci='sd')
 
 res.set(xlabel='Time [ms]', ylabel='Mean temperature [°C]')
 
-res2 = sb.scatterplot(x='temp_count', y='temp_mean', data=resamp, ax=ax[1])
+res2 = sb.lineplot(x='ms', y='temp_count', data=resamp, ax=ax[1], ci='sd')
 
-res2.set(xlabel='# events pr 30 minutes', ylabel='Mean temperature [°C]')
+res2.set(xlabel='Time [ms]', ylabel='# events pr 30 minutes')
+
+res3 = sb.scatterplot(x='temp_count', y='temp_mean', data=resamp, ax=ax[2])
+
+res3.set(xlabel='# events pr 30 minutes', ylabel='Mean temperature [°C]')
 
 plt.show()
 
