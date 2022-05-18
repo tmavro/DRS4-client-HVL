@@ -161,7 +161,7 @@ void parseTimeArgumet() { //TODO Implement
 }
 
 void printArgs(){
-    printf("Sampling frequency set to %d GHz, input range %d V, trigger level %d V, trigger delay %d ns. \n", 
+    printf("Sampling frequency set to %f GHz, input range %f V, trigger level %f V, trigger delay %f ns. \n", 
     argFreq, argRange, argTrigLvl, argTrigDelay);
     if (argTime > 0) printf("Time-based capture set to %d seconds. ", argTime);
     if (argNumb > 0) printf("Event-based capture set to %d events. ", argNumb);
