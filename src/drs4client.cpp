@@ -191,7 +191,6 @@ void showUsage(int status){
     -d, --trigger-delay      Set trigger delay in ns. Default: 250 [ns] \n\
     -n, --numbered           Run for given number of events. Default: 0\n\
     -t, --timed              Run for given amount of seconds. Default: 0\n\
-    -s, --save-to            Define filename (and directory) to store data. Default: data.txt \n\
     -w, --ignore-wave        Do not save waveforms, only time and temp. Default: False \n\
     -h, --help               Shows this help message\n\
     "), stdout);
