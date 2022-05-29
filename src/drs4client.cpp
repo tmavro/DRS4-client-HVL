@@ -181,7 +181,7 @@ void showUsage(int status){
     }
     else {
     printf(("Usage: %s [OPTION] \n"), PROGRAM_NAME); //... [FILE]...\n"), PROGRAM_NAME);
-    fputs(("Command-line application for timed data acqusition with DRS4 EB.\n"), stdout); 
+    fputs(("Command-line application for timed data acquisition with DRS4 EB.\n"), stdout); 
 
     fputs(("\
     \n\
