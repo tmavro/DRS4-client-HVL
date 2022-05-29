@@ -2,7 +2,7 @@
 
 ```
   Usage: drs4client [OPTION]
-  Command-line application for timed data acqusition with DRS4 EB.
+  Command-line application for timed data acquisition with DRS4 EB.
   
   -f, --sampling-frequency Set sampling frequency. Default: 5 [GHz] 
   -i, --input-range        input range, ex. input 0 means -0.5 to 0.5. Default: 0 
@@ -78,3 +78,6 @@ The software requires root privileges to recognize the DRS4 EB's USB connection.
 ```bash
 sudo ./drs4client --help
 ```
+
+### Other files
+This repository also contain other files related to a Bachelor's project. There are harryplotter.py, readtemp.py and 3dmodels.zip. These files plot data acquired through the DRS4 software, reads the temperature from a PT1000 through an Adafruit MAX31865 breakout board and houses several 3D models created for the project, respectively. 
