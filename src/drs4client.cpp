@@ -34,9 +34,9 @@
     ------------------ */
 
 // Argument options
-int argFreq = 5;        // Sampling frequency
+float argFreq = 5;        // Sampling frequency
 int argRange = 0;       // Input range, -0.5 - 0.5 [V]
-int argTrigLvl = 0.02;  // Trigger level [V]
+float argTrigLvl = 0.02;  // Trigger level [V]
 int argTrigDelay = 250; // Trigger delay [ns]
 int argNumb = 0;        // Numbered run
 int argTime = 0;        // Timed run
@@ -161,7 +161,7 @@ void parseTimeArgumet() { //TODO Implement
 }
 
 void printArgs(){
-    printf("Sampling frequency set to %f GHz, input range %f V, trigger level %f V, trigger delay %f ns. \n", 
+    printf("Sampling frequency set to %.1f GHz, input range %d V, trigger level %.3f V, trigger delay %d ns. \n", 
     argFreq, argRange, argTrigLvl, argTrigDelay);
     if (argTime > 0) printf("Time-based capture set to %d seconds. ", argTime);
     if (argNumb > 0) printf("Event-based capture set to %d events. ", argNumb);
@@ -214,7 +214,7 @@ void processArgs(int argc, char **argv){
         switch (c)
         {
         case 'f': //Set frequency
-            argFreq = atoi(optarg);
+            argFreq = atof(optarg);
             break;
 
         case 'i': //Input range
@@ -222,11 +222,11 @@ void processArgs(int argc, char **argv){
             break;
 
         case 'l': //Trigger level
-            argTrigLvl = atoi(optarg);
+            argTrigLvl = atof(optarg);
             break;
 
         case 'd': //Trigger delay
-            argTrigDelay = atoi(optarg);
+            argTrigDelay = atof(optarg);
             break;
 
         case 'n': //Numbered run
